@@ -1,10 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import logo from '../resources/logo.svg';
+import { AppContainer } from './styles';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
+    <AppContainer className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -19,7 +19,7 @@ const App: React.FC = () => {
           Learn React
         </a>
       </header>
-    </div>
+    </AppContainer>
   );
 }
 
