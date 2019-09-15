@@ -1,22 +1,19 @@
 import { combineReducers } from 'redux';
 import { all } from 'redux-saga/effects';
 
-export const rootSaga = function* rootSaga() {
-  return yield all([]);
-};
+/* Reducer imports */
+import exampleReducer from 'modules/example/reducer';
 
-const initialState = {};
+/* Saga imports */
 
-const exampleReducer = (state: any = initialState, action: any = {}) => {
-  const { data, type } = action;
-  switch (type) {
-    default:
-      return state;
-  }
-};
-
+/* Add all reducers */
 const appReducer = combineReducers({
   exampleReducer,
 });
+
+/* Run all sagas */
+export const rootSaga = function* rootSaga() {
+  return yield all([]);
+};
 
 export default appReducer;
