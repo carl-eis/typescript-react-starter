@@ -1,17 +1,9 @@
 import { applyMiddleware, createStore } from 'redux';
-import history from 'core/history';
 import appReducer, { rootSaga } from 'modules';
 import createSagaMiddleware from 'redux-saga';
 
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
-
-// import { connectRouter, routerMiddleware } from 'connected-react-router';
-
-// Only use these if you would like to persist your state to local storage
-
-// import { persistConfig } from '~/core/config';
-// import { persistStore, persistReducer } from 'redux-persist';
 
 /* Redux Logger */
 
