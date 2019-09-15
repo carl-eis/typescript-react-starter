@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const AppContainer = styled.div<any>`
+export const SplashContainer = styled.div<any>`
   text-align: center;
   
   .App-logo {
