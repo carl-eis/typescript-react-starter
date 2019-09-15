@@ -1,7 +1,77 @@
-import { createStore } from 'redux';
-// import history from 'core/history';
-import appReducer from 'modules';
+import { applyMiddleware, createStore } from 'redux';
+import history from 'core/history';
+import appReducer, { rootSaga } from 'modules';
+import createSagaMiddleware from 'redux-saga';
 
-const store = createStore(appReducer);
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { createLogger } from 'redux-logger';
+
+// import { connectRouter, routerMiddleware } from 'connected-react-router';
+
+// Only use these if you would like to persist your state to local storage
+
+// import { persistConfig } from '~/core/config';
+// import { persistStore, persistReducer } from 'redux-persist';
+
+/* Redux Logger */
+
+const reduxLogger = createLogger({
+  collapsed: true,
+  level: 'info',
+});
+
+/* Redux Sagas */
+
+const sagaMiddleware = createSagaMiddleware();
+
+/* Redux Devtools Configuration */
+
+const options = {};
+const composeEnhancers = composeWithDevTools(options);
+
+/* Store Configuration */
+
+const createProdStore = () => {
+  return createStore(
+    appReducer,
+    applyMiddleware(
+      sagaMiddleware
+    )
+  );
+};
+
+const createDevStore = () => {
+  return createStore(
+    appReducer,
+    composeEnhancers(
+      applyMiddleware(
+        sagaMiddleware,
+        reduxLogger,
+      )
+    )
+  );
+};
+
+const configureStore = (isProduction: boolean = false) => {
+  const store = isProduction ? createProdStore() : createDevStore();
+
+  sagaMiddleware.run(rootSaga);
+
+  // @ts-ignore
+  if (module.hot) {
+    // Enable Webpack hot module replacement for reducers
+    // @ts-ignore
+    module.hot.accept('../../modules', () => {
+      const nextRootReducer = require('../../modules');
+      store.replaceReducer(nextRootReducer);
+    });
+  }
+
+  return store;
+};
+
+const isProductionStore: boolean = process.env.NODE_ENV === 'production';
+const store = configureStore(isProductionStore);
+
 
 export default store;
